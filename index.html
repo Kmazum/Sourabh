@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0">
     <title>Sourabh Mazumdar</title>
-    <link rel="icon" type="image/png" href="Favicon.png">
+    <link rel="icon" type="image/png" href="favicon.png">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
@@ -92,6 +92,38 @@
         img.lazy-load { opacity: 0; }
         img.loaded { opacity: 1; }
 
+        /* Custom Toggle Switch Styles */
+        .toggle-checkbox:checked {
+            right: 0;
+            border-color: #000000;
+        }
+        .dark .toggle-checkbox:checked {
+            border-color: #ffffff;
+        }
+        .toggle-checkbox:checked + .toggle-label {
+            background-color: #000000;
+        }
+        .dark .toggle-checkbox:checked + .toggle-label {
+            background-color: #ffffff;
+        }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            transform: translateX(1.25rem);
+            background-color: #ffffff;
+        }
+        .dark .toggle-checkbox:checked + .toggle-label .toggle-dot {
+            background-color: #000000;
+        }
+
+        /* Fix Select Options Visibility Across Browsers */
+        select option {
+            background-color: #ffffff;
+            color: #171717;
+        }
+        .dark select option {
+            background-color: #0a0a0a;
+            color: #ffffff;
+        }
+
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 2px; }
@@ -106,10 +138,10 @@
             <div class="w-full sm:w-auto flex justify-between items-center">
                 <div class="flex items-center gap-3">
                     <button id="admin-login-dot" onclick="handleDotClick()" title="Admin Login" class="w-2.5 h-2.5 bg-neutral-900 dark:bg-white rounded-full hover:scale-150 transition-all duration-300 focus:outline-none cursor-pointer"></button>
-                    <span onclick="switchTab('bio')" class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-900 dark:text-white cursor-pointer select-none hover:opacity-75 transition-opacity duration-300">Sourabh Mazumdar</span>
+                    <span onclick="switchTab('home')" class="text-xs sm:text-sm font-semibold tracking-widest uppercase text-neutral-900 dark:text-white cursor-pointer select-none hover:opacity-75 transition-opacity duration-300">Sourabh Mazumdar</span>
                 </div>
                 <div class="flex items-center gap-2 sm:hidden">
-                    <span id="mobile-current-tab" class="text-[10px] font-mono uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-md">Bio</span>
+                    <span id="mobile-current-tab" class="text-[10px] font-mono uppercase text-neutral-500 bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-md">Home</span>
                     <button onclick="toggleTheme()" class="p-2 rounded-xl border border-neutral-200 dark:border-neutral-800 text-neutral-600 dark:text-neutral-400 hover:text-black dark:hover:text-white cursor-pointer transition-colors">
                         <i data-lucide="sun" class="w-4 h-4 hidden dark:block"></i>
                         <i data-lucide="moon" class="w-4 h-4 block dark:hidden"></i>
@@ -119,7 +151,10 @@
 
             <nav class="w-full sm:w-auto flex items-center justify-between sm:justify-end gap-1.5 sm:gap-6 text-xs uppercase tracking-wider font-medium overflow-x-auto pb-1 sm:pb-0 scrollbar-none">
                 <div class="flex items-center gap-1.5 sm:gap-6 overflow-x-auto">
-                    <button id="nav-bio-btn" onclick="switchTab('bio')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800">
+                    <button id="nav-home-btn" onclick="switchTab('home')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800">
+                        <i data-lucide="home" class="w-3.5 h-3.5"></i> Home
+                    </button>
+                    <button id="nav-bio-btn" onclick="switchTab('bio')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
                         <i data-lucide="user" class="w-3.5 h-3.5"></i> Bio
                     </button>
                     <button id="nav-gallery-btn" onclick="switchTab('gallery')" class="transition-all duration-300 flex items-center gap-1.5 shrink-0 px-3 py-1.5 rounded-xl border border-transparent hover:border-neutral-200 dark:hover:border-neutral-800 text-neutral-500 dark:text-neutral-400">
@@ -146,8 +181,22 @@
     <!-- Main Container -->
     <main class="pt-32 sm:pt-36 pb-32 px-4 sm:px-8 max-w-7xl mx-auto w-full">
 
+        <!-- ================= HOME VIEW ================= -->
+        <section id="view-home" class="view-section visible-view space-y-10 max-w-4xl mx-auto">
+            <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
+                <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Current & Upcoming Exhibit</h2>
+                <p class="text-neutral-500 text-xs sm:text-sm mt-1">Featured exhibition poster, timeline, and location details.</p>
+            </div>
+
+            <div id="home-poster-container" class="space-y-6">
+                <div class="py-20 text-center text-neutral-400 font-mono text-sm border border-neutral-200 dark:border-neutral-900 rounded-3xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl">
+                    Loading exhibit information...
+                </div>
+            </div>
+        </section>
+
         <!-- ================= BIOGRAPHY VIEW ================= -->
-        <section id="view-bio" class="view-section visible-view space-y-10 sm:space-y-16 max-w-5xl mx-auto">
+        <section id="view-bio" class="view-section hidden-view space-y-10 sm:space-y-16 max-w-5xl mx-auto">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 border-b border-neutral-200 dark:border-neutral-900 pb-10 sm:pb-14">
                 <div class="space-y-3 sm:space-y-4">
                     <div class="inline-flex items-center gap-2 px-3 py-1 rounded-full border border-neutral-200 dark:border-neutral-800 bg-neutral-50 dark:bg-neutral-950 text-neutral-600 dark:text-neutral-400 text-[11px] sm:text-xs tracking-wider uppercase">
@@ -305,13 +354,14 @@
             <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Admin Console</h2>
-                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage gallery records, socials & credentials.</p>
+                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage gallery records, home exhibit poster, socials & credentials.</p>
                 </div>
                 <button onclick="logoutAdmin()" class="px-4 py-2 border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-600 rounded-xl text-xs font-mono cursor-pointer transition-colors hover:bg-red-100">Sign Out</button>
             </div>
 
             <div class="flex flex-wrap gap-4">
                 <button onclick="openArtworkModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Add Artwork</button>
+                <button onclick="openHomePosterModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="image" class="w-4 h-4"></i> Manage Home Poster</button>
                 <button onclick="openSocialModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="share-2" class="w-4 h-4"></i> Add Social Media</button>
                 <button onclick="openAddAdminModal()" class="px-6 py-3.5 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add New Admin</button>
             </div>
@@ -335,7 +385,44 @@
 
     </main>
 
-    <!-- MODAL: ADD SOCIAL -->
+    <!-- MODAL: MANAGE HOME POSTER -->
+    <div id="home-poster-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeHomePosterModal()">
+        <div class="modal-animated max-w-lg w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Update Home Page Exhibit</h3>
+                <button onclick="closeHomePosterModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="home-poster-form" class="space-y-4 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-500 block mb-1">EXHIBIT / EVENT NAME *</label>
+                    <input type="text" id="hp-name" required placeholder="e.g. Contemporary Forms Solo Exhibition" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">DATE / DURATION *</label>
+                    <input type="text" id="hp-date" required placeholder="e.g. Nov 15 - Dec 10, 2026" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">LOCATION *</label>
+                    <input type="text" id="hp-location" required placeholder="e.g. Triveni Kala Sangam, New Delhi" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div class="space-y-2">
+                    <label class="text-neutral-500 block mb-1">POSTER IMAGE FILE *</label>
+                    <label class="flex flex-col items-center justify-center border-2 border-dashed border-neutral-300 dark:border-neutral-800 hover:border-neutral-400 rounded-2xl p-6 cursor-pointer bg-neutral-50/50 dark:bg-neutral-900/30 transition-colors">
+                        <i data-lucide="upload-cloud" class="w-6 h-6 text-neutral-400 mb-2"></i>
+                        <span id="hp-file-label" class="text-xs text-neutral-600 dark:text-neutral-400 text-center">Click to browse or drop poster image here</span>
+                        <input type="file" id="hp-file" accept="image/*" class="hidden" onchange="updateHomeFileLabel(this)" />
+                    </label>
+                    <input type="url" id="hp-url" placeholder="Or paste web image link..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 mt-2" />
+                </div>
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeHomePosterModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" id="hp-submit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Save Exhibit</button>
+                </div>
+            </form>
+        </div>
+    </div>
+
+    <!-- MODAL: ADD SOCIAL WITH PRESETS -->
     <div id="social-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeSocialModal()">
         <div class="modal-animated max-w-md w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
@@ -344,30 +431,42 @@
             </div>
             <form id="social-form" class="space-y-3.5 font-mono text-xs">
                 <div>
+                    <label class="text-neutral-500 block mb-1.5">QUICK PRESETS</label>
+                    <div class="grid grid-cols-3 gap-2">
+                        <button type="button" onclick="applySocialPreset('Instagram', 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Instagram</button>
+                        <button type="button" onclick="applySocialPreset('Facebook', 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Facebook</button>
+                        <button type="button" onclick="applySocialPreset('WhatsApp', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">WhatsApp</button>
+                        <button type="button" onclick="applySocialPreset('Twitter/X', 'https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Twitter / X</button>
+                        <button type="button" onclick="applySocialPreset('YouTube', 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">YouTube</button>
+                        <button type="button" onclick="applySocialPreset('LinkedIn', 'https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">LinkedIn</button>
+                    </div>
+                </div>
+                <div>
                     <label class="text-neutral-500 block mb-1">PLATFORM NAME *</label>
-                    <input type="text" id="social-name" required placeholder="Instagram" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="social-name" required placeholder="Instagram" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">PROFILE URL *</label>
-                    <input type="url" id="social-link" required placeholder="https://instagram.com/..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="url" id="social-link" required placeholder="https://instagram.com/..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">USERNAME *</label>
-                    <input type="text" id="social-username" required placeholder="@handle" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="social-username" required placeholder="@handle" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
-                    <label class="text-neutral-500 block mb-1">LOGO IMAGE FILE *</label>
-                    <input type="file" id="social-file" accept="image/*" required class="w-full p-2 border rounded-xl text-xs text-neutral-500" />
+                    <label class="text-neutral-500 block mb-1">LOGO IMAGE FILE OR URL *</label>
+                    <input type="file" id="social-file" accept="image/*" class="w-full p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs text-neutral-500 mb-2" onchange="updateSocialFileLabel(this)" />
+                    <input type="url" id="social-logo-url" placeholder="Or paste logo image link..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeSocialModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="button" onclick="closeSocialModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
                     <button type="submit" id="social-submit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Publish</button>
                 </div>
             </form>
         </div>
     </div>
 
-    <!-- MODAL: ADD ARTWORK (Centered) -->
+    <!-- MODAL: ADD ARTWORK -->
     <div id="artwork-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden items-center justify-center p-4 transition-all" onclick="closeArtworkModal()">
         <div class="modal-animated max-w-lg w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800 max-h-[90vh] overflow-y-auto" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
@@ -377,55 +476,63 @@
             <form id="artwork-form" class="grid grid-cols-1 md:grid-cols-2 gap-4 font-mono text-xs">
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">TITLE *</label>
-                    <input type="text" id="art-title" required placeholder="Artwork Title" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="art-title" required placeholder="Artwork Title" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-                <div>
-                    <label class="text-neutral-500 block mb-1">CATEGORY *</label>
-                    <select id="art-category" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500">
-                        <option value="marble">Marble</option>
-                        <option value="bronze">Bronze</option>
-                        <option value="terracotta">Terracotta</option>
-                        <option value="painting">Painting</option>
-                        <option value="stone">Stone</option>
-                        <option value="wood">Wood</option>
-                        <option value="other">Other</option>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">MEDIUM / CATEGORY *</label>
+                    <select id="art-category" onchange="handleCategoryChange()" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer">
+                        <option value="Bronze Sculpture" selected>Bronze Sculpture</option>
+                        <option value="Terracotta">Terracotta</option>
+                        <option value="Carved Marble">Carved Marble</option>
+                        <option value="Painting">Painting</option>
+                        <option value="Stone">Stone</option>
+                        <option value="Wood">Wood</option>
+                        <option value="Mixed Medium">Mixed Medium</option>
+                        <option value="other">Other (Custom)</option>
                     </select>
+                </div>
+                <div id="custom-category-wrapper" class="md:col-span-2 hidden">
+                    <label class="text-neutral-500 block mb-1">CUSTOM MEDIUM / CATEGORY *</label>
+                    <input type="text" id="art-custom-medium" placeholder="Enter custom medium..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">YEAR</label>
-                    <input type="text" id="art-year" placeholder="1997" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
-                </div>
-                <div class="md:col-span-2">
-                    <label class="text-neutral-500 block mb-1">MEDIUM / MATERIAL *</label>
-                    <input type="text" id="art-medium" required placeholder="e.g. Carved Marble" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
-                </div>
-                <div>
-                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
-                    <input type="text" id="art-dimensions" placeholder="e.g. 24 x 36 in" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="art-year" placeholder="1997" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">PRICE</label>
-                    <input type="text" id="art-price" placeholder="e.g. $1,200" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="art-price" placeholder="e.g. $1,200" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-                <div class="md:col-span-2 flex items-center gap-3 py-1">
-                    <input type="checkbox" id="art-sold" class="w-4 h-4 accent-neutral-900 dark:accent-white cursor-pointer" />
-                    <label for="art-sold" class="text-neutral-700 dark:text-neutral-300 font-semibold cursor-pointer select-none">Mark as Sold</label>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
+                    <input type="text" id="art-dimensions" placeholder="e.g. 24 x 36 in" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
+                
+                <!-- Toggle Switch for Mark as Sold -->
+                <div class="md:col-span-2 flex items-center justify-between py-2 border-y border-neutral-200 dark:border-neutral-800 my-1">
+                    <span class="text-neutral-700 dark:text-neutral-300 font-semibold select-none">Mark as Sold</span>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="art-sold" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
+                        <label for="art-sold" class="toggle-label block overflow-hidden h-5 rounded-full bg-neutral-300 dark:bg-neutral-800 cursor-pointer transition-colors"></label>
+                    </div>
+                </div>
+
                 <div class="md:col-span-2 space-y-2">
                     <label class="text-neutral-500 block mb-1">IMAGE FILES OR URL (Multiple Allowed)</label>
                     <label class="flex flex-col items-center justify-center border-2 border-dashed border-neutral-300 dark:border-neutral-800 hover:border-neutral-400 rounded-2xl p-6 cursor-pointer bg-neutral-50/50 dark:bg-neutral-900/30 transition-colors">
                         <i data-lucide="upload-cloud" class="w-6 h-6 text-neutral-400 mb-2"></i>
                         <span id="file-upload-label" class="text-xs text-neutral-600 dark:text-neutral-400 text-center">Click to browse or drop image files here</span>
-                        <input type="file" id="art-file" accept="image/*" multiple class="hidden" onchange="updateFileLabel(this)" />
+                        <input type="file" id="art-file" accept="image/*" multiple class="hidden" onchange="updateFilePreview(this)" />
                     </label>
-                    <input type="url" id="art-url" placeholder="Or paste single web image link..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 mt-2" />
+                    <div id="art-file-preview" class="grid grid-cols-3 sm:grid-cols-4 gap-2 pt-2 hidden"></div>
+                    <input type="url" id="art-url" placeholder="Or paste single web image link..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 mt-2" />
                 </div>
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">DESCRIPTION</label>
-                    <textarea id="art-desc" rows="2" placeholder="Artwork details..." class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
+                    <textarea id="art-desc" rows="2" placeholder="Artwork details..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
                 </div>
                 <div class="md:col-span-2 pt-2 flex gap-3">
-                    <button type="button" onclick="closeArtworkModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="button" onclick="closeArtworkModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
                     <button type="submit" id="submit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Publish Artwork</button>
                 </div>
             </form>
@@ -442,14 +549,14 @@
             <form id="add-user-form" class="space-y-3.5 font-mono text-xs">
                 <div>
                     <label class="text-neutral-500 block mb-1">USERNAME</label>
-                    <input type="text" id="new-admin-user" required placeholder="Username" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="new-admin-user" required placeholder="Username" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">PASSWORD</label>
-                    <input type="password" id="new-admin-pass" required placeholder="••••••••" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="password" id="new-admin-pass" required placeholder="••••••••" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div class="pt-2 flex gap-3">
-                    <button type="button" onclick="closeAddAdminModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="button" onclick="closeAddAdminModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
                     <button type="submit" id="add-user-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Create</button>
                 </div>
             </form>
@@ -467,51 +574,58 @@
                 <input type="hidden" id="edit-doc-id" />
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">TITLE</label>
-                    <input type="text" id="edit-title" required class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="edit-title" required class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-                <div>
-                    <label class="text-neutral-500 block mb-1">CATEGORY</label>
-                    <select id="edit-category" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500">
-                        <option value="marble">Marble</option>
-                        <option value="bronze">Bronze</option>
-                        <option value="terracotta">Terracotta</option>
-                        <option value="painting">Painting</option>
-                        <option value="stone">Stone</option>
-                        <option value="wood">Wood</option>
-                        <option value="other">Other</option>
+                <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">MEDIUM / CATEGORY</label>
+                    <select id="edit-category" onchange="handleEditCategoryChange()" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer">
+                        <option value="Bronze Sculpture">Bronze Sculpture</option>
+                        <option value="Terracotta">Terracotta</option>
+                        <option value="Carved Marble">Carved Marble</option>
+                        <option value="Painting">Painting</option>
+                        <option value="Stone">Stone</option>
+                        <option value="Wood">Wood</option>
+                        <option value="Mixed Medium">Mixed Medium</option>
+                        <option value="other">Other (Custom)</option>
                     </select>
+                </div>
+                <div id="edit-custom-category-wrapper" class="md:col-span-2 hidden">
+                    <label class="text-neutral-500 block mb-1">CUSTOM MEDIUM / CATEGORY *</label>
+                    <input type="text" id="edit-custom-medium" placeholder="Enter custom medium..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">YEAR</label>
-                    <input type="text" id="edit-year" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="edit-year" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
-                    <label class="text-neutral-500 block mb-1">MEDIUM</label>
-                    <input type="text" id="edit-medium" required class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
-                </div>
-                <div>
-                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
-                    <input type="text" id="edit-dimensions" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
-                </div>
-                <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">PRICE</label>
-                    <input type="text" id="edit-price" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
-                </div>
-                <div class="md:col-span-2 flex items-center gap-3 py-1">
-                    <input type="checkbox" id="edit-sold" class="w-4 h-4 accent-neutral-900 dark:accent-white cursor-pointer" />
-                    <label for="edit-sold" class="text-neutral-700 dark:text-neutral-300 font-semibold cursor-pointer select-none">Mark as Sold</label>
+                    <input type="text" id="edit-price" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div class="md:col-span-2">
+                    <label class="text-neutral-500 block mb-1">DIMENSIONS</label>
+                    <input type="text" id="edit-dimensions" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                
+                <div class="md:col-span-2 flex items-center justify-between py-2 border-y border-neutral-200 dark:border-neutral-800 my-1">
+                    <span class="text-neutral-700 dark:text-neutral-300 font-semibold select-none">Mark as Sold</span>
+                    <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
+                        <input type="checkbox" name="toggle" id="edit-sold" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
+                        <label for="edit-sold" class="toggle-label block overflow-hidden h-5 rounded-full bg-neutral-300 dark:bg-neutral-800 cursor-pointer transition-colors"></label>
+                    </div>
+                </div>
+
+                <div class="md:col-span-2 space-y-2">
                     <label class="text-neutral-500 block mb-1">NEW IMAGE FILES OR URL (Appends/Replaces)</label>
-                    <input type="file" id="edit-file" accept="image/*" multiple class="w-full p-2 border rounded-xl text-xs text-neutral-500 mb-2" />
-                    <input type="url" id="edit-url" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="file" id="edit-file" accept="image/*" multiple class="w-full p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs text-neutral-500 mb-2" onchange="updateEditFilePreview(this)" />
+                    <div id="edit-file-preview" class="grid grid-cols-3 sm:grid-cols-4 gap-2 pt-2 hidden"></div>
+                    <input type="url" id="edit-url" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 mt-2" />
                 </div>
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">DESCRIPTION</label>
-                    <textarea id="edit-desc" rows="2" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
+                    <textarea id="edit-desc" rows="2" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
                 </div>
                 <div class="md:col-span-2 pt-2 flex gap-3">
-                    <button type="button" onclick="closeEditModal()" class="w-1/3 py-3 border rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="button" onclick="closeEditModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
                     <button type="submit" id="save-edit-btn" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Save Changes</button>
                 </div>
             </form>
@@ -525,12 +639,14 @@
                 <img id="modal-image" class="w-full h-full object-contain hidden" />
                 <span id="modal-placeholder" class="text-xs font-mono text-neutral-500">No Image</span>
                 
-                <!-- Sold Badge in Modal -->
-                <div id="modal-sold-badge" class="absolute top-3 left-3 px-3 py-1 rounded-xl bg-red-600 text-white font-mono text-xs uppercase font-bold tracking-wider shadow-lg hidden">Sold</div>
+                <!-- Sold Stamp Overlay in Modal -->
+                <div id="modal-sold-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center pointer-events-none z-10 hidden">
+                    <img src="https://static.vecteezy.com/system/resources/previews/021/433/029/non_2x/sold-rubber-stamp-free-png.png" class="w-48 sm:w-64 object-contain transform -rotate-12 drop-shadow-2xl opacity-95" />
+                </div>
 
                 <!-- Carousel Navigation Arrows -->
-                <button id="modal-prev-btn" onclick="prevModalImage()" class="absolute left-2 p-2 rounded-xl bg-black/60 text-white hover:bg-black/80 transition-colors hidden"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
-                <button id="modal-next-btn" onclick="nextModalImage()" class="absolute right-2 p-2 rounded-xl bg-black/60 text-white hover:bg-black/80 transition-colors hidden"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
+                <button id="modal-prev-btn" onclick="prevModalImage()" class="absolute left-2 p-2 rounded-xl bg-black/60 text-white hover:bg-black/80 transition-colors hidden z-20"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
+                <button id="modal-next-btn" onclick="nextModalImage()" class="absolute right-2 p-2 rounded-xl bg-black/60 text-white hover:bg-black/80 transition-colors hidden z-20"><i data-lucide="chevron-right" class="w-4 h-4"></i></button>
             </div>
 
             <!-- Thumbnails List -->
@@ -563,11 +679,11 @@
             <form id="login-form" class="space-y-3.5 font-mono text-xs">
                 <div>
                     <label class="text-neutral-500 block mb-1">USERNAME</label>
-                    <input type="text" id="login-username" required placeholder="Username" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="text" id="login-username" required placeholder="Username" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">PASSWORD</label>
-                    <input type="password" id="login-password" required placeholder="Password" class="w-full p-3 border rounded-xl bg-transparent text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    <input type="password" id="login-password" required placeholder="Password" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div id="auth-error" class="text-red-500 text-[11px] hidden">Incorrect credentials</div>
                 <button type="submit" class="w-full py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold uppercase tracking-wider cursor-pointer hover:opacity-90 transition-opacity mt-2">Login</button>
@@ -578,7 +694,7 @@
     <!-- FIREBASE & APPLICATION LOGIC -->
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-app.js";
-        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
+        import { getFirestore, collection, addDoc, updateDoc, deleteDoc, doc, onSnapshot, query, orderBy, serverTimestamp, setDoc } from "https://www.gstatic.com/firebasejs/10.12.0/firebase-firestore.js";
 
         window.toggleTheme = function() {
             const htmlEl = document.documentElement;
@@ -614,6 +730,7 @@
         let artworksList = [];
         let adminUsersList = [];
         let socialLinksList = [];
+        let homePosterData = null;
         let currentFilter = 'all';
         let isAuthenticated = localStorage.getItem('isAdminLoggedIn') === 'true';
 
@@ -631,14 +748,6 @@
             if (dot) dot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full hover:scale-150 transition-all cursor-pointer";
         }
 
-        function disableAdminState() {
-            isAuthenticated = false;
-            localStorage.removeItem('isAdminLoggedIn');
-            document.getElementById('nav-admin-btn')?.classList.add('hidden');
-            const dot = document.getElementById('admin-login-dot');
-            if (dot) dot.className = "w-2.5 h-2.5 bg-neutral-900 dark:bg-white rounded-full hover:scale-150 transition-all cursor-pointer";
-        }
-
         window.switchTab = function(viewName) {
             if (viewName === 'admin' && !isAuthenticated) {
                 document.getElementById('auth-modal').classList.remove('hidden');
@@ -648,7 +757,7 @@
             const mobileLabel = document.getElementById('mobile-current-tab');
             if (mobileLabel) mobileLabel.innerText = viewName;
 
-            ['bio', 'gallery', 'timeline', 'contact', 'admin'].forEach(v => {
+            ['home', 'bio', 'gallery', 'timeline', 'contact', 'admin'].forEach(v => {
                 const el = document.getElementById(`view-${v}`);
                 const btn = document.getElementById(`nav-${v}-btn`);
                 if (v === viewName) {
@@ -674,27 +783,113 @@
 
         window.closeAuthModal = () => document.getElementById('auth-modal').classList.add('hidden');
         window.openArtworkModal = () => {
-            const overlay = document.getElementById('artwork-modal-overlay');
-            overlay.classList.remove('hidden');
-            overlay.classList.add('flex');
+            document.getElementById('artwork-modal-overlay').classList.remove('hidden');
+            document.getElementById('artwork-modal-overlay').classList.add('flex');
         };
         window.closeArtworkModal = () => {
-            const overlay = document.getElementById('artwork-modal-overlay');
-            overlay.classList.remove('flex');
-            overlay.classList.add('hidden');
+            document.getElementById('artwork-modal-overlay').classList.remove('flex');
+            document.getElementById('artwork-modal-overlay').classList.add('hidden');
+            document.getElementById('art-file-preview').innerHTML = '';
+            document.getElementById('art-file-preview').classList.add('hidden');
         };
+
+        window.openHomePosterModal = () => {
+            if (homePosterData) {
+                document.getElementById('hp-name').value = homePosterData.name || '';
+                document.getElementById('hp-date').value = homePosterData.date || '';
+                document.getElementById('hp-location').value = homePosterData.location || '';
+                document.getElementById('hp-url').value = homePosterData.imageUrl || '';
+            }
+            document.getElementById('home-poster-modal').classList.remove('hidden');
+            document.getElementById('home-poster-modal').classList.add('flex');
+        };
+        window.closeHomePosterModal = () => {
+            document.getElementById('home-poster-modal').classList.remove('flex');
+            document.getElementById('home-poster-modal').classList.add('hidden');
+        };
+
         window.openSocialModal = () => document.getElementById('social-modal-overlay').classList.remove('hidden');
         window.closeSocialModal = () => document.getElementById('social-modal-overlay').classList.add('hidden');
         window.openAddAdminModal = () => document.getElementById('admin-modal-overlay').classList.remove('hidden');
         window.closeAddAdminModal = () => document.getElementById('admin-modal-overlay').classList.add('hidden');
-        window.closeEditModal = () => document.getElementById('edit-modal').classList.add('hidden');
+        window.closeEditModal = () => {
+            document.getElementById('edit-modal').classList.add('hidden');
+            document.getElementById('edit-file-preview').innerHTML = '';
+            document.getElementById('edit-file-preview').classList.add('hidden');
+        };
 
-        window.updateFileLabel = function(input) {
-            const label = document.getElementById('file-upload-label');
-            if (input.files && input.files.length > 0) {
-                label.innerText = `${input.files.length} image(s) selected`;
+        window.handleCategoryChange = function() {
+            const selectVal = document.getElementById('art-category').value;
+            const customWrapper = document.getElementById('custom-category-wrapper');
+            if (selectVal === 'other') {
+                customWrapper.classList.remove('hidden');
+                document.getElementById('art-custom-medium').required = true;
             } else {
-                label.innerText = "Click to browse or drop image files here";
+                customWrapper.classList.add('hidden');
+                document.getElementById('art-custom-medium').required = false;
+            }
+        };
+
+        window.handleEditCategoryChange = function() {
+            const selectVal = document.getElementById('edit-category').value;
+            const customWrapper = document.getElementById('edit-custom-category-wrapper');
+            if (selectVal === 'other') {
+                customWrapper.classList.remove('hidden');
+                document.getElementById('edit-custom-medium').required = true;
+            } else {
+                customWrapper.classList.add('hidden');
+                document.getElementById('edit-custom-medium').required = false;
+            }
+        };
+
+        window.applySocialPreset = function(name, defaultLogoUrl) {
+            document.getElementById('social-name').value = name;
+            document.getElementById('social-logo-url').value = defaultLogoUrl;
+        };
+
+        window.updateHomeFileLabel = function(input) {
+            const label = document.getElementById('hp-file-label');
+            if (input.files && input.files[0]) label.innerText = input.files[0].name;
+            else label.innerText = "Click to browse or drop poster image here";
+        };
+
+        window.updateSocialFileLabel = function(input) {
+            if (input.files && input.files[0]) {
+                document.getElementById('social-logo-url').value = '';
+            }
+        };
+
+        window.updateFilePreview = async function(input) {
+            const previewContainer = document.getElementById('art-file-preview');
+            previewContainer.innerHTML = '';
+            if (input.files && input.files.length > 0) {
+                previewContainer.classList.remove('hidden');
+                for (let i = 0; i < input.files.length; i++) {
+                    const base64 = await compressImage(input.files[i]);
+                    const img = document.createElement('img');
+                    img.src = base64;
+                    img.className = "w-full h-20 object-cover rounded-xl border border-neutral-200 dark:border-neutral-800";
+                    previewContainer.appendChild(img);
+                }
+            } else {
+                previewContainer.classList.add('hidden');
+            }
+        };
+
+        window.updateEditFilePreview = async function(input) {
+            const previewContainer = document.getElementById('edit-file-preview');
+            previewContainer.innerHTML = '';
+            if (input.files && input.files.length > 0) {
+                previewContainer.classList.remove('hidden');
+                for (let i = 0; i < input.files.length; i++) {
+                    const base64 = await compressImage(input.files[i]);
+                    const img = document.createElement('img');
+                    img.src = base64;
+                    img.className = "w-full h-20 object-cover rounded-xl border border-neutral-200 dark:border-neutral-800";
+                    previewContainer.appendChild(img);
+                }
+            } else {
+                previewContainer.classList.add('hidden');
             }
         };
 
@@ -702,7 +897,7 @@
             selectedArtworkForPurchase = art;
             document.getElementById('modal-title').innerText = art.title || 'Untitled';
             document.getElementById('modal-desc').innerText = art.desc || '';
-            document.getElementById('modal-medium').innerText = art.medium || art.category || '';
+            document.getElementById('modal-medium').innerText = art.medium || '';
             
             const dim = document.getElementById('modal-dimensions');
             if (art.dimensions) {
@@ -716,13 +911,13 @@
                 price.classList.remove('hidden');
             } else price.classList.add('hidden');
 
-            const soldBadge = document.getElementById('modal-sold-badge');
+            const soldOverlay = document.getElementById('modal-sold-overlay');
             const buyBtn = document.getElementById('modal-buy-btn');
             if (art.isSold) {
-                soldBadge.classList.remove('hidden');
+                soldOverlay.classList.remove('hidden');
                 buyBtn.classList.add('hidden');
             } else {
-                soldBadge.classList.add('hidden');
+                soldOverlay.classList.add('hidden');
                 buyBtn.classList.remove('hidden');
             }
 
@@ -796,13 +991,15 @@
         window.requestToBuyCurrentArtwork = function() {
             if (!selectedArtworkForPurchase) return;
             const artTitle = selectedArtworkForPurchase.title || 'Untitled';
+            const artPrice = selectedArtworkForPurchase.price || '';
             closeArtModal();
             switchTab('contact');
             document.getElementById('contact-subject').value = `Purchase Inquiry: ${artTitle}`;
-            document.getElementById('contact-message').value = `Hi!, I would Like to buy ${artTitle}`;
+            document.getElementById('contact-message').value = `Hi!, I would Like to buy ${artTitle} worth ${artPrice}. hope to get you reply soon!`;
             document.getElementById('contact-user-name').focus();
         };
 
+        // Realtime Listeners
         onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
             artworksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             updateFilterButtons(artworksList);
@@ -819,6 +1016,43 @@
             renderSocials();
             renderAdminSocialsList();
         });
+
+        onSnapshot(doc(db, "settings", "home_poster"), (docSnap) => {
+            if (docSnap.exists()) {
+                homePosterData = docSnap.data();
+                renderHomePoster(homePosterData);
+            } else {
+                renderHomePoster(null);
+            }
+        });
+
+        function renderHomePoster(data) {
+            const container = document.getElementById('home-poster-container');
+            if (!container) return;
+            if (!data || (!data.imageUrl && !data.name)) {
+                container.innerHTML = `
+                    <div class="p-12 text-center border border-neutral-200 dark:border-neutral-900 rounded-3xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl space-y-3">
+                        <i data-lucide="image" class="w-10 h-10 text-neutral-400 mx-auto"></i>
+                        <h3 class="text-lg font-medium text-neutral-900 dark:text-white">No active exhibit posted yet.</h3>
+                        <p class="text-xs text-neutral-500 max-w-sm mx-auto">Log in as admin to configure the home exhibit poster, name, date, and location.</p>
+                    </div>`;
+            } else {
+                container.innerHTML = `
+                    <div class="border border-neutral-200 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl max-w-2xl mx-auto text-center">
+                        <div class="w-full bg-black/90 dark:bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-200 dark:border-neutral-800 relative p-3 sm:p-4">
+                            ${data.imageUrl ? `<img src="${data.imageUrl}" class="max-h-[70vh] w-auto h-auto min-h-[300px] object-contain rounded-lg shadow-2xl" />` : `<span class="text-xs font-mono text-neutral-500 py-12">No Poster Image</span>`}
+                        </div>
+                        <div class="space-y-2">
+                            <h3 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white">${data.name || ''}</h3>
+                            <div class="flex flex-wrap justify-center gap-3 pt-2 font-mono text-xs text-neutral-500">
+                                <span class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-100 dark:bg-neutral-900">${data.date || ''}</span>
+                                <span class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-100 dark:bg-neutral-900">${data.location || ''}</span>
+                            </div>
+                        </div>
+                    </div>`;
+            }
+            if (window.lucide) window.lucide.createIcons();
+        }
 
         function updateFilterButtons(items) {
             const filterContainer = document.getElementById('filter-container');
@@ -863,16 +1097,19 @@
                 card.onclick = () => openArtModal(art);
                 
                 const previewImg = (art.imageUrls && art.imageUrls.length > 0) ? art.imageUrls[0] : art.imageUrl;
-                const imageCountBadge = (art.imageUrls && art.imageUrls.length > 1) ? `<span class="absolute bottom-2.5 left-2.5 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono text-white flex items-center gap-1"><i data-lucide="images" class="w-3 h-3"></i> ${art.imageUrls.length}</span>` : '';
-                const soldBanner = art.isSold ? `<div class="absolute inset-0 bg-black/50 backdrop-blur-[2px] flex items-center justify-center z-0"><span class="px-4 py-1.5 rounded-xl bg-red-600 text-white font-mono text-xs uppercase font-bold tracking-widest shadow-xl">Sold</span></div>` : '';
+                const imageCountBadge = (art.imageUrls && art.imageUrls.length > 1) ? `<span class="absolute bottom-2.5 left-2.5 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono text-white flex items-center gap-1 z-10"><i data-lucide="images" class="w-3 h-3"></i> ${art.imageUrls.length}</span>` : '';
+                
+                // PNG Stamp overlay for sold cards
+                const soldStampOverlay = art.isSold ? `<div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none"><img src="https://static.vecteezy.com/system/resources/previews/021/433/029/non_2x/sold-rubber-stamp-free-png.png" class="w-36 object-contain transform -rotate-12 drop-shadow-xl opacity-95" /></div>` : '';
 
                 card.innerHTML = `
                     <div class="w-full h-52 bg-black rounded-xl overflow-hidden flex items-center justify-center relative">
                         ${previewImg ? `<img src="${previewImg}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />` : `<span class="text-xs font-mono text-neutral-500">No Image</span>`}
-                        ${soldBanner}
+                        ${soldStampOverlay}
                         ${imageCountBadge}
                         ${isAuthenticated ? `
-                            <div class="absolute top-2.5 right-2.5 flex gap-1.5 z-10" onclick="event.stopPropagation()">
+                            <div class="absolute top-2.5 right-2.5 flex gap-1.5 z-20" onclick="event.stopPropagation()">
+                                <button onclick="toggleSoldStatus('${art.id}', ${!art.isSold})" title="${art.isSold ? 'Mark Available' : 'Mark Sold'}" class="p-2 rounded-xl bg-black/80 ${art.isSold ? 'text-red-400' : 'text-neutral-400'} hover:text-white backdrop-blur-md transition-colors"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i></button>
                                 <button onclick="openEditModal('${art.id}')" class="p-2 rounded-xl bg-black/80 text-white hover:bg-neutral-800 backdrop-blur-md transition-colors"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
                                 <button onclick="deleteArtRecord('${art.id}')" class="p-2 rounded-xl bg-black/80 text-red-400 hover:bg-red-950 backdrop-blur-md transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
                             </div>
@@ -941,9 +1178,22 @@
             if (!art) return;
             document.getElementById('edit-doc-id').value = art.id;
             document.getElementById('edit-title').value = art.title || '';
-            document.getElementById('edit-category').value = art.category || 'marble';
+            
+            const dropdown = document.getElementById('edit-category');
+            const customInput = document.getElementById('edit-custom-medium');
+            const standardOptions = Array.from(dropdown.options).map(o => o.value);
+
+            if (standardOptions.includes(art.medium)) {
+                dropdown.value = art.medium;
+                document.getElementById('edit-custom-category-wrapper').classList.add('hidden');
+                customInput.value = '';
+            } else {
+                dropdown.value = 'other';
+                document.getElementById('edit-custom-category-wrapper').classList.remove('hidden');
+                customInput.value = art.medium || '';
+            }
+
             document.getElementById('edit-year').value = art.year || '';
-            document.getElementById('edit-medium').value = art.medium || '';
             document.getElementById('edit-dimensions').value = art.dimensions || '';
             document.getElementById('edit-price').value = art.price || '';
             document.getElementById('edit-sold').checked = !!art.isSold;
@@ -951,6 +1201,10 @@
             document.getElementById('edit-url').value = art.imageUrl || '';
             document.getElementById('edit-modal').classList.remove('hidden');
             document.getElementById('edit-modal').classList.add('flex');
+        };
+
+        window.toggleSoldStatus = async function(id, newStatus) {
+            await updateDoc(doc(db, "artworks", id), { isSold: newStatus });
         };
 
         window.deleteArtRecord = async (id) => { if (confirm("Delete artwork?")) await deleteDoc(doc(db, "artworks", id)); };
@@ -979,10 +1233,30 @@
             });
         }
 
+        document.getElementById('home-poster-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const file = document.getElementById('hp-file').files[0];
+            let posterUrl = document.getElementById('hp-url').value.trim();
+            if (file) {
+                posterUrl = await compressImage(file);
+            }
+            await setDoc(doc(db, "settings", "home_poster"), {
+                name: document.getElementById('hp-name').value.trim(),
+                date: document.getElementById('hp-date').value.trim(),
+                location: document.getElementById('hp-location').value.trim(),
+                imageUrl: posterUrl,
+                updatedAt: serverTimestamp()
+            });
+            closeHomePosterModal();
+        });
+
         document.getElementById('social-form').addEventListener('submit', async (e) => {
             e.preventDefault();
             const file = document.getElementById('social-file').files[0];
-            const logoData = file ? await compressImage(file) : '';
+            let logoData = document.getElementById('social-logo-url').value.trim();
+            if (file) {
+                logoData = await compressImage(file);
+            }
             await addDoc(collection(db, "social_links"), {
                 name: document.getElementById('social-name').value.trim(),
                 link: document.getElementById('social-link').value.trim(),
@@ -1011,11 +1285,13 @@
                 imageUrls.push(singleUrl);
             }
 
+            const catVal = document.getElementById('art-category').value;
+            const finalMedium = catVal === 'other' ? document.getElementById('art-custom-medium').value.trim() : catVal;
+
             await addDoc(collection(db, "artworks"), {
                 title: document.getElementById('art-title').value.trim(),
-                category: document.getElementById('art-category').value,
+                medium: finalMedium,
                 year: document.getElementById('art-year').value.trim(),
-                medium: document.getElementById('art-medium').value.trim(),
                 dimensions: document.getElementById('art-dimensions').value.trim(),
                 price: document.getElementById('art-price').value.trim(),
                 isSold: document.getElementById('art-sold').checked,
@@ -1025,7 +1301,9 @@
                 createdAt: serverTimestamp()
             });
             document.getElementById('artwork-form').reset();
-            document.getElementById('file-upload-label').innerText = "Click to browse or drop image files here";
+            document.getElementById('custom-category-wrapper').classList.add('hidden');
+            document.getElementById('art-file-preview').innerHTML = '';
+            document.getElementById('art-file-preview').classList.add('hidden');
             closeArtworkModal();
         });
 
@@ -1049,11 +1327,13 @@
                 imageUrls.push(singleUrl);
             }
 
+            const catVal = document.getElementById('edit-category').value;
+            const finalMedium = catVal === 'other' ? document.getElementById('edit-custom-medium').value.trim() : catVal;
+
             await updateDoc(doc(db, "artworks", docId), {
                 title: document.getElementById('edit-title').value.trim(),
-                category: document.getElementById('edit-category').value,
+                medium: finalMedium,
                 year: document.getElementById('edit-year').value.trim(),
-                medium: document.getElementById('edit-medium').value.trim(),
                 dimensions: document.getElementById('edit-dimensions').value.trim(),
                 price: document.getElementById('edit-price').value.trim(),
                 isSold: document.getElementById('edit-sold').checked,

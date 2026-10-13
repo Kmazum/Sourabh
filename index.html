@@ -8,6 +8,20 @@
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.tailwindcss.com"></script>
     <script type="text/javascript" src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+
+    <!-- PREVENT LIGHT/DARK FLASH ON RELOAD -->
+    <script>
+        (function() {
+            const savedTheme = localStorage.getItem('theme') || 'dark';
+            if (savedTheme === 'dark') {
+                document.documentElement.classList.add('dark');
+                document.documentElement.classList.remove('light');
+            } else {
+                document.documentElement.classList.add('light');
+                document.documentElement.classList.remove('dark');
+            }
+        })();
+    </script>
     
     <script>
         tailwind.config = {
@@ -72,10 +86,6 @@
             box-shadow: 0 10px 30px 0 rgba(0, 0, 0, 0.06), inset 0 1px 1px 0 rgba(255, 255, 255, 0.8);
         }
 
-        .liquid-glass-btn:hover {
-            transform: translateY(-2px);
-        }
-
         .interactive-card {
             transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
         }
@@ -88,46 +98,38 @@
             animation: modalSmoothScale 0.35s cubic-bezier(0.16, 1, 0.3, 1) forwards;
         }
 
-        img { transition: opacity 0.4s ease-in-out, transform 0.5s cubic-bezier(0.16, 1, 0.3, 1); }
-        img.lazy-load { opacity: 0; }
-        img.loaded { opacity: 1; }
-
-        /* Custom Toggle Switch Styles */
-        .toggle-checkbox:checked {
-            right: 0;
-            border-color: #000000;
-        }
-        .dark .toggle-checkbox:checked {
-            border-color: #ffffff;
-        }
-        .toggle-checkbox:checked + .toggle-label {
-            background-color: #000000;
-        }
-        .dark .toggle-checkbox:checked + .toggle-label {
-            background-color: #ffffff;
-        }
-        .toggle-checkbox:checked + .toggle-label .toggle-dot {
-            transform: translateX(1.25rem);
-            background-color: #ffffff;
-        }
-        .dark .toggle-checkbox:checked + .toggle-label .toggle-dot {
-            background-color: #000000;
+        select {
+            appearance: none;
+            -webkit-appearance: none;
+            -moz-appearance: none;
+            background-image: url("data:image/svg+xml;charset=UTF-8,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%23888888' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3e%3cpolyline points='6 9 12 15 18 9'%3e%3c/polyline%3e%3c/svg%3e");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            background-size: 14px;
+            padding-right: 36px !important;
         }
 
-        /* Fix Select Options Visibility Across Browsers */
         select option {
             background-color: #ffffff;
             color: #171717;
+            padding: 10px 14px;
         }
         .dark select option {
-            background-color: #0a0a0a;
+            background-color: #0f0f0f;
             color: #ffffff;
+            padding: 10px 14px;
         }
+
+        .toggle-checkbox:checked { right: 0; border-color: #000000; }
+        .dark .toggle-checkbox:checked { border-color: #ffffff; }
+        .toggle-checkbox:checked + .toggle-label { background-color: #000000; }
+        .dark .toggle-checkbox:checked + .toggle-label { background-color: #ffffff; }
+        .toggle-checkbox:checked + .toggle-label .toggle-dot { transform: translateX(1.25rem); background-color: #ffffff; }
+        .dark .toggle-checkbox:checked + .toggle-label .toggle-dot { background-color: #000000; }
 
         ::-webkit-scrollbar { width: 4px; height: 4px; }
         ::-webkit-scrollbar-track { background: transparent; }
         ::-webkit-scrollbar-thumb { background: rgba(150, 150, 150, 0.3); border-radius: 2px; }
-        ::-webkit-scrollbar-thumb:hover { background: rgba(150, 150, 150, 0.5); }
     </style>
 </head>
 <body class="bg-white dark:bg-black text-neutral-800 dark:text-neutral-200 font-sf min-h-screen selection:bg-neutral-200 dark:selection:bg-neutral-800 selection:text-black dark:selection:text-white transition-colors duration-300">
@@ -181,7 +183,7 @@
     <!-- Main Container -->
     <main class="pt-32 sm:pt-36 pb-32 px-4 sm:px-8 max-w-7xl mx-auto w-full">
 
-        <!-- ================= HOME VIEW ================= -->
+        <!-- HOME VIEW -->
         <section id="view-home" class="view-section visible-view space-y-10 max-w-4xl mx-auto">
             <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Current & Upcoming Exhibit</h2>
@@ -195,7 +197,7 @@
             </div>
         </section>
 
-        <!-- ================= BIOGRAPHY VIEW ================= -->
+        <!-- BIOGRAPHY VIEW -->
         <section id="view-bio" class="view-section hidden-view space-y-10 sm:space-y-16 max-w-5xl mx-auto">
             <div class="flex flex-col md:flex-row md:items-center justify-between gap-6 md:gap-8 border-b border-neutral-200 dark:border-neutral-900 pb-10 sm:pb-14">
                 <div class="space-y-3 sm:space-y-4">
@@ -221,81 +223,53 @@
                 </div>
                 <p>Born on 11 October in Allahabad, Uttar Pradesh, Sourabh Mazumdar is a sculptor whose artistic journey has been shaped by a sustained engagement with form, material and the expressive possibilities of sculpture.</p>
                 <p>Mazumdar began his formal education in art at the Government College of Arts & Crafts, Lucknow University, where he studied Fine Arts with a focus on Sculpture and Drawing from 1988 to 1993. He subsequently pursued postgraduate studies in sculpture at the College of Art, University of Delhi, completing his M.F.A. (Post Graduate Diploma) between 1998 and 2000.</p>
-                <p>An important chapter in his artistic development came in 1997, when he was invited to Switzerland by the Margaret Arp Foundation, with sponsorship from Pro Helvetia, Switzerland, to deepen his understanding of marble sculpture. This experience brought him into direct engagement with the traditions and techniques of working in marble and marked an important international dimension in his sculptural practice.</p>
-                <p>His work has been exhibited extensively since the late 1980s. Early participation included the Very Special Arts of India in New Delhi (1989), the All India Art Exhibition in Varanasi (1991), and annual exhibitions at the Government College of Arts & Crafts, Lucknow. His work was subsequently presented at institutions and exhibitions in Allahabad, New Delhi, Kolkata and elsewhere, including exhibitions associated with the Rajiv Gandhi Foundation, Lalit Kala Academy, AIFACS, the Allahabad Museum, the Birla Academy of Art & Culture, and the College of Art, New Delhi.</p>
-                <p>His international experience expanded in the late 1990s. In 1998, he participated in an exhibition of sculpture organised by the Scuola di Scultura di Peccia at Teatro Dimitri in Verscio, Switzerland, connecting his Indian artistic training with the European sculptural environment. His works have subsequently entered collections in Switzerland, France, Japan, Belgium and Australia, as well as in New Delhi, Allahabad, Kolkata and other private collections in India and abroad.</p>
-                <p>Mazumdar has also presented a number of solo exhibitions, including at the Uttar Pradesh Lalit Kala Academy, Lucknow (1993), Triveni Kala Sangam, New Delhi (1996), the Academy of Fine Arts, Kolkata (1998) and the Birla Academy of Art & Culture, Kolkata (1999). His group exhibitions include presentations at Nirala Art Gallery, Allahabad, Lalit Kala Academy, Ravindra Bhavan, New Delhi, and the Birla Academy of Art & Culture, Kolkata.</p>
-                <p>Across his career, Sourabh Mazumdar's sculptures have been distinguished by an exploration of physical form and material presence. His artistic practice reflects both the rigorous foundation of Indian academic art education and an openness to international approaches to sculpture. His experience with marble in Switzerland, together with his longstanding engagement with sculpture in India, forms an important part of an artistic journey that has extended across several decades and countries.</p>
-                <p>Today, his works form part of institutional and private collections in India and abroad, reflecting the international reach of his practice and his continuing contribution to contemporary Indian sculpture.</p>
-            </div>
-
-            <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4 text-xs font-mono text-neutral-500 dark:text-neutral-400">
-                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">ORIGIN</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Allahabad (UP), India</span></div>
-                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">EDUCATION</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">B.F.A. Lucknow, M.F.A. Delhi</span></div>
-                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">SWISS RESIDENCY</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Margaret Arp Foundation (1997)</span></div>
-                <div class="p-4 border border-neutral-200 dark:border-neutral-900 rounded-2xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl"><span class="block text-neutral-400 mb-1 text-[10px]">FOOTPRINT</span><span class="text-neutral-800 dark:text-neutral-200 font-medium">Global Collections</span></div>
+                <p>An important chapter in his artistic development came in 1997, when he was invited to Switzerland by the Margaret Arp Foundation, with sponsorship from Pro Helvetia, Switzerland, to deepen his understanding of marble sculpture.</p>
             </div>
         </section>
 
-        <!-- ================= GALLERY VIEW ================= -->
+        <!-- GALLERY VIEW -->
         <section id="view-gallery" class="view-section hidden-view space-y-8 w-full">
-            <div class="flex flex-col md:flex-row justify-between items-start md:items-end gap-4 border-b border-neutral-200 dark:border-neutral-900 pb-6">
+            <div class="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Collection</h2>
                     <p class="text-neutral-500 text-xs sm:text-sm mt-1">Paintings and Sculptures by Sourabh Mazumdar</p>
                 </div>
-                <div id="filter-container" class="w-full md:w-auto flex items-center gap-2 text-xs overflow-x-auto pb-2 md:pb-0 scrollbar-none"></div>
+                
+                <div class="flex items-center gap-3 text-xs font-mono">
+                    <span class="text-neutral-400 uppercase tracking-widest text-[10px]">Sort By:</span>
+                    <select id="gallery-sort-key" onchange="changeGallerySortKey(this.value)" class="bg-neutral-50 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 rounded-xl px-3.5 py-2.5 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-400 dark:focus:border-neutral-600 shadow-sm transition-all cursor-pointer">
+                        <option value="year">Year</option>
+                        <option value="title">Name</option>
+                        <option value="medium">Medium</option>
+                        <option value="price">Price</option>
+                    </select>
+                    <button id="sort-order-btn" onclick="toggleSortOrder()" class="px-3.5 py-2.5 bg-neutral-50 dark:bg-neutral-900/90 border border-neutral-200 dark:border-neutral-800 rounded-xl text-neutral-700 dark:text-neutral-200 hover:scale-105 transition-transform flex items-center gap-1.5 shadow-sm">
+                        <span id="sort-order-label">DESC</span>
+                        <i data-lucide="arrow-down-up" class="w-3.5 h-3.5"></i>
+                    </button>
+                </div>
             </div>
 
-            <div id="gallery-grid" class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center mx-auto">
-                <div class="col-span-full py-20 text-center text-neutral-400 font-mono text-sm">
+            <div id="gallery-grouped-sections" class="space-y-12">
+                <div class="py-20 text-center text-neutral-400 font-mono text-sm">
                     Loading collection items...
                 </div>
             </div>
         </section>
 
-        <!-- ================= TIMELINE VIEW ================= -->
+        <!-- TIMELINE / HISTORY VIEW -->
         <section id="view-timeline" class="view-section hidden-view space-y-10 max-w-5xl mx-auto">
             <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Curriculum Vitae & History</h2>
                 <p class="text-neutral-500 text-xs sm:text-sm mt-1">Exhibitions, international residencies, and artistic milestones.</p>
             </div>
 
-            <div class="space-y-8 text-xs sm:text-sm">
-                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">FORMAL EDUCATION</h3>
-                    <ul class="text-neutral-600 dark:text-neutral-300 space-y-2.5">
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1988 – 1993:</strong> Fine Arts (Sculpture & Drawing), Government College of Arts & Crafts, Lucknow University</span></li>
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998 – 2000:</strong> M.F.A. (Post Graduate Diploma) in Sculpture, College of Art, University of Delhi</span></li>
-                    </ul>
-                </div>
-
-                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">INTERNATIONAL RESIDENCY</h3>
-                    <div class="space-y-2.5 text-neutral-600 dark:text-neutral-300">
-                        <p class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1997:</strong> Margaret Arp Foundation, Switzerland (Sponsored by Pro Helvetia, Switzerland) — Marble Sculpture Specialization</span></p>
-                        <p class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998:</strong> Sculpture Exhibition with Scuola di Scultura di Peccia at Teatro Dimitri, Verscio, Switzerland</span></p>
-                    </div>
-                </div>
-
-                <div class="space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">SOLO EXHIBITIONS</h3>
-                    <ul class="text-neutral-600 dark:text-neutral-300 space-y-2.5">
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1993:</strong> Uttar Pradesh Lalit Kala Academy, Lucknow</span></li>
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1996:</strong> Triveni Kala Sangam, New Delhi</span></li>
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1998:</strong> Academy of Fine Arts, Kolkata</span></li>
-                        <li class="flex items-start gap-3"><span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">1999:</strong> Birla Academy of Art & Culture, Kolkata</span></li>
-                    </ul>
-                </div>
-
-                <div class="space-y-3">
-                    <h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">INTERNATIONAL & DOMESTIC COLLECTIONS</h3>
-                    <p class="text-neutral-600 dark:text-neutral-300 leading-relaxed">Switzerland, France, Japan, Belgium, Australia, New Delhi, Allahabad, Kolkata, and private global collections.</p>
-                </div>
+            <div id="history-container" class="space-y-8 text-xs sm:text-sm">
+                <div class="text-neutral-400 font-mono text-xs">Loading history entries...</div>
             </div>
         </section>
 
-        <!-- ================= CONTACT VIEW ================= -->
+        <!-- CONTACT VIEW -->
         <section id="view-contact" class="view-section hidden-view space-y-10 w-full max-w-5xl mx-auto">
             <div class="border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Get in Touch</h2>
@@ -349,41 +323,70 @@
             </div>
         </section>
 
-        <!-- ================= ADMIN VIEW ================= -->
+        <!-- ADMIN VIEW -->
         <section id="view-admin" class="view-section hidden-view space-y-8 max-w-5xl mx-auto">
             <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-6">
                 <div>
                     <h2 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white tracking-tight">Admin Console</h2>
-                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage gallery records, home exhibit poster, socials & credentials.</p>
+                    <p class="text-neutral-500 text-xs sm:text-sm mt-0.5">Manage gallery records, home exhibit poster, history, socials & credentials.</p>
                 </div>
                 <button onclick="logoutAdmin()" class="px-4 py-2 border border-red-200 dark:border-red-900/50 bg-red-50 dark:bg-red-950/30 text-red-600 rounded-xl text-xs font-mono cursor-pointer transition-colors hover:bg-red-100">Sign Out</button>
             </div>
 
             <div class="flex flex-wrap gap-4">
-                <button onclick="openArtworkModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Add Artwork</button>
                 <button onclick="openHomePosterModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="image" class="w-4 h-4"></i> Manage Home Poster</button>
+                <button onclick="openArtworkModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="plus" class="w-4 h-4"></i> Add Artwork</button>
+                <button onclick="openHistoryModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="award" class="w-4 h-4"></i> Add History Item</button>
                 <button onclick="openSocialModal()" class="px-6 py-3.5 bg-neutral-900 dark:bg-white text-white dark:text-black font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:opacity-90 transition-all flex items-center gap-2"><i data-lucide="share-2" class="w-4 h-4"></i> Add Social Media</button>
                 <button onclick="openAddAdminModal()" class="px-6 py-3.5 bg-neutral-100 dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 text-neutral-900 dark:text-white font-semibold rounded-2xl text-xs uppercase tracking-wider cursor-pointer shadow-lg hover:bg-neutral-200 dark:hover:bg-neutral-800 transition-all flex items-center gap-2"><i data-lucide="user-plus" class="w-4 h-4"></i> Add New Admin</button>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-2 gap-6 pt-2">
                 <div class="border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-mono uppercase text-neutral-400">MANAGED SOCIAL ACCOUNTS</h3>
-                    <div id="admin-socials-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
-                        <div class="text-neutral-400 text-[11px]">Loading socials...</div>
+                    <h3 class="text-xs font-mono uppercase text-neutral-400">MANAGED HISTORY ENTRIES</h3>
+                    <div id="admin-history-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
+                        <div class="text-neutral-400 text-[11px]">Loading history...</div>
                     </div>
                 </div>
 
                 <div class="border border-neutral-200 dark:border-neutral-800 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl p-6 rounded-3xl space-y-4 shadow-xl">
-                    <h3 class="text-xs font-mono uppercase text-neutral-400">EXISTING ADMIN ACCOUNTS</h3>
-                    <div id="admin-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
-                        <div class="text-neutral-400 text-[11px]">Loading accounts...</div>
+                    <h3 class="text-xs font-mono uppercase text-neutral-400">MANAGED SOCIAL ACCOUNTS</h3>
+                    <div id="admin-socials-list" class="space-y-2.5 font-mono text-xs max-h-52 overflow-y-auto">
+                        <div class="text-neutral-400 text-[11px]">Loading socials...</div>
                     </div>
                 </div>
             </div>
         </section>
 
     </main>
+
+    <!-- MODAL: ADD HISTORY RECORD -->
+    <div id="history-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeHistoryModal()">
+        <div class="modal-animated max-w-md w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
+            <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
+                <h3 class="text-xs font-mono uppercase tracking-widest text-neutral-900 dark:text-white">Add History Entry</h3>
+                <button onclick="closeHistoryModal()" class="text-neutral-400 hover:text-neutral-900 dark:hover:text-white text-lg cursor-pointer">&times;</button>
+            </div>
+            <form id="history-form" class="space-y-3.5 font-mono text-xs">
+                <div>
+                    <label class="text-neutral-500 block mb-1">CATEGORY *</label>
+                    <input type="text" id="hist-category" required placeholder="e.g. SOLO EXHIBITIONS, FORMAL EDUCATION" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">YEAR / YEAR RANGE *</label>
+                    <input type="text" id="hist-year" required placeholder="e.g. 1997 or 1988 - 1993" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                </div>
+                <div>
+                    <label class="text-neutral-500 block mb-1">DESCRIPTION *</label>
+                    <textarea id="hist-desc" rows="3" required placeholder="e.g. Fine Arts (Sculpture & Drawing), Government College..." class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500"></textarea>
+                </div>
+                <div class="pt-2 flex gap-3">
+                    <button type="button" onclick="closeHistoryModal()" class="w-1/3 py-3 border border-neutral-200 dark:border-neutral-800 rounded-xl text-xs uppercase cursor-pointer hover:bg-neutral-100 dark:hover:bg-neutral-900 transition-colors">Cancel</button>
+                    <button type="submit" class="w-2/3 py-3 bg-neutral-900 dark:bg-white text-white dark:text-black rounded-xl font-semibold cursor-pointer hover:opacity-90 transition-opacity">Save History</button>
+                </div>
+            </form>
+        </div>
+    </div>
 
     <!-- MODAL: MANAGE HOME POSTER -->
     <div id="home-poster-modal" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeHomePosterModal()">
@@ -397,9 +400,15 @@
                     <label class="text-neutral-500 block mb-1">EXHIBIT / EVENT NAME *</label>
                     <input type="text" id="hp-name" required placeholder="e.g. Contemporary Forms Solo Exhibition" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
-                <div>
-                    <label class="text-neutral-500 block mb-1">DATE / DURATION *</label>
-                    <input type="text" id="hp-date" required placeholder="e.g. Nov 15 - Dec 10, 2026" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                <div class="grid grid-cols-2 gap-3">
+                    <div>
+                        <label class="text-neutral-500 block mb-1">START DATE *</label>
+                        <input type="date" id="hp-start-date" required class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    </div>
+                    <div>
+                        <label class="text-neutral-500 block mb-1">END DATE *</label>
+                        <input type="date" id="hp-end-date" required class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
+                    </div>
                 </div>
                 <div>
                     <label class="text-neutral-500 block mb-1">LOCATION *</label>
@@ -422,7 +431,7 @@
         </div>
     </div>
 
-    <!-- MODAL: ADD SOCIAL WITH PRESETS -->
+    <!-- MODAL: ADD SOCIAL -->
     <div id="social-modal-overlay" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-md hidden justify-center items-center p-4 transition-all" onclick="closeSocialModal()">
         <div class="modal-animated max-w-md w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl space-y-5 shadow-2xl border border-neutral-200 dark:border-neutral-800" onclick="event.stopPropagation()">
             <div class="flex justify-between items-center border-b border-neutral-200 dark:border-neutral-900 pb-3">
@@ -436,9 +445,6 @@
                         <button type="button" onclick="applySocialPreset('Instagram', 'https://upload.wikimedia.org/wikipedia/commons/e/e7/Instagram_logo_2016.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Instagram</button>
                         <button type="button" onclick="applySocialPreset('Facebook', 'https://upload.wikimedia.org/wikipedia/commons/b/b8/2021_Facebook_icon.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Facebook</button>
                         <button type="button" onclick="applySocialPreset('WhatsApp', 'https://upload.wikimedia.org/wikipedia/commons/6/6b/WhatsApp.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">WhatsApp</button>
-                        <button type="button" onclick="applySocialPreset('Twitter/X', 'https://upload.wikimedia.org/wikipedia/commons/c/ce/X_logo_2023.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">Twitter / X</button>
-                        <button type="button" onclick="applySocialPreset('YouTube', 'https://upload.wikimedia.org/wikipedia/commons/0/09/YouTube_full-color_icon_%282017%29.svg')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">YouTube</button>
-                        <button type="button" onclick="applySocialPreset('LinkedIn', 'https://upload.wikimedia.org/wikipedia/commons/c/ca/LinkedIn_logo_initials.png')" class="p-2 border border-neutral-200 dark:border-neutral-800 rounded-xl text-center hover:border-neutral-500 transition-colors">LinkedIn</button>
                     </div>
                 </div>
                 <div>
@@ -480,10 +486,9 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">MEDIUM / CATEGORY *</label>
-                    <select id="art-category" onchange="handleCategoryChange()" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer">
-                        <option value="Bronze Sculpture" selected>Bronze Sculpture</option>
+                    <select id="art-category" onchange="handleCategoryChange()" class="w-full p-3.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer shadow-sm">
+                        <option value="Bronze" selected>Bronze</option>
                         <option value="Terracotta">Terracotta</option>
-                        <option value="Carved Marble">Carved Marble</option>
                         <option value="Painting">Painting</option>
                         <option value="Stone">Stone</option>
                         <option value="Wood">Wood</option>
@@ -500,7 +505,7 @@
                     <input type="text" id="art-year" placeholder="1997" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div>
-                    <label class="text-neutral-500 block mb-1">PRICE</label>
+                    <label class="text-neutral-500 block mb-1">PRICE <span id="art-price-req-label" class="text-neutral-400 font-normal">(Required if Available)</span></label>
                     <input type="text" id="art-price" placeholder="e.g. $1,200" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 <div class="md:col-span-2">
@@ -508,11 +513,10 @@
                     <input type="text" id="art-dimensions" placeholder="e.g. 24 x 36 in" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500" />
                 </div>
                 
-                <!-- Toggle Switch for Mark as Sold -->
                 <div class="md:col-span-2 flex items-center justify-between py-2 border-y border-neutral-200 dark:border-neutral-800 my-1">
                     <span class="text-neutral-700 dark:text-neutral-300 font-semibold select-none">Mark as Sold</span>
                     <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="toggle" id="art-sold" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
+                        <input type="checkbox" name="toggle" id="art-sold" onchange="toggleSoldPriceRequirement(this.checked, 'art-price')" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
                         <label for="art-sold" class="toggle-label block overflow-hidden h-5 rounded-full bg-neutral-300 dark:bg-neutral-800 cursor-pointer transition-colors"></label>
                     </div>
                 </div>
@@ -578,10 +582,9 @@
                 </div>
                 <div class="md:col-span-2">
                     <label class="text-neutral-500 block mb-1">MEDIUM / CATEGORY</label>
-                    <select id="edit-category" onchange="handleEditCategoryChange()" class="w-full p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer">
-                        <option value="Bronze Sculpture">Bronze Sculpture</option>
+                    <select id="edit-category" onchange="handleEditCategoryChange()" class="w-full p-3.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-neutral-900 text-neutral-900 dark:text-white focus:outline-none focus:border-neutral-500 cursor-pointer shadow-sm">
+                        <option value="Bronze">Bronze</option>
                         <option value="Terracotta">Terracotta</option>
-                        <option value="Carved Marble">Carved Marble</option>
                         <option value="Painting">Painting</option>
                         <option value="Stone">Stone</option>
                         <option value="Wood">Wood</option>
@@ -609,7 +612,7 @@
                 <div class="md:col-span-2 flex items-center justify-between py-2 border-y border-neutral-200 dark:border-neutral-800 my-1">
                     <span class="text-neutral-700 dark:text-neutral-300 font-semibold select-none">Mark as Sold</span>
                     <div class="relative inline-block w-10 mr-2 align-middle select-none transition duration-200 ease-in">
-                        <input type="checkbox" name="toggle" id="edit-sold" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
+                        <input type="checkbox" name="toggle" id="edit-sold" onchange="toggleSoldPriceRequirement(this.checked, 'edit-price')" class="toggle-checkbox absolute block w-5 h-5 rounded-full bg-white border-4 appearance-none cursor-pointer transition-all duration-300 left-0 top-0"/>
                         <label for="edit-sold" class="toggle-label block overflow-hidden h-5 rounded-full bg-neutral-300 dark:bg-neutral-800 cursor-pointer transition-colors"></label>
                     </div>
                 </div>
@@ -633,16 +636,18 @@
     </div>
 
     <!-- ARTWORK DETAIL FULL MODAL -->
-    <div id="art-modal" class="fixed inset-0 z-50 bg-black/70 backdrop-blur-xl hidden flex-col justify-center items-center p-4 overflow-y-auto transition-all" onclick="closeArtModal()">
-        <div class="modal-animated max-w-2xl w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl border border-neutral-200 dark:border-neutral-800 text-center space-y-5 shadow-2xl" onclick="event.stopPropagation()">
+    <div id="art-modal" class="fixed inset-0 z-50 bg-black/80 backdrop-blur-xl hidden flex-col justify-center items-center p-4 overflow-y-auto transition-all" onclick="closeArtModal()">
+        
+        <!-- FLOATING [X] EXIT BUTTON -->
+        <button onclick="closeArtModal()" title="Close artwork preview (Esc)" class="fixed top-6 right-6 z-50 p-3 bg-neutral-900/90 dark:bg-white/90 text-white dark:text-black rounded-full hover:scale-110 active:scale-95 transition-all shadow-2xl border border-white/20 cursor-pointer flex items-center justify-center">
+            <i data-lucide="x" class="w-6 h-6"></i>
+        </button>
+
+        <div class="modal-animated max-w-2xl w-full bg-white dark:bg-neutral-950 p-6 sm:p-8 rounded-3xl border border-neutral-200 dark:border-neutral-800 text-center space-y-5 shadow-2xl relative" onclick="event.stopPropagation()">
+            
             <div class="w-full h-80 bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-200 dark:border-neutral-800 relative">
                 <img id="modal-image" class="w-full h-full object-contain hidden" />
                 <span id="modal-placeholder" class="text-xs font-mono text-neutral-500">No Image</span>
-                
-                <!-- Sold Stamp Overlay in Modal -->
-                <div id="modal-sold-overlay" class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center pointer-events-none z-10 hidden">
-                    <img src="https://static.vecteezy.com/system/resources/previews/021/433/029/non_2x/sold-rubber-stamp-free-png.png" class="w-48 sm:w-64 object-contain transform -rotate-12 drop-shadow-2xl opacity-95" />
-                </div>
 
                 <!-- Carousel Navigation Arrows -->
                 <button id="modal-prev-btn" onclick="prevModalImage()" class="absolute left-2 p-2 rounded-xl bg-black/60 text-white hover:bg-black/80 transition-colors hidden z-20"><i data-lucide="chevron-left" class="w-4 h-4"></i></button>
@@ -709,10 +714,6 @@
             }
         };
 
-        const savedTheme = localStorage.getItem('theme') || 'dark';
-        document.documentElement.classList.toggle('dark', savedTheme === 'dark');
-        document.documentElement.classList.toggle('light', savedTheme === 'light');
-
         emailjs.init({ publicKey: "Qb2pm-_bzZaTba2GX" });
 
         const firebaseConfig = {
@@ -730,13 +731,23 @@
         let artworksList = [];
         let adminUsersList = [];
         let socialLinksList = [];
+        let historyList = [];
         let homePosterData = null;
-        let currentFilter = 'all';
+
+        let gallerySortKey = 'year';
+        let isSortAscending = false;
         let isAuthenticated = localStorage.getItem('isAdminLoggedIn') === 'true';
 
         let currentActiveImages = [];
         let currentImageIndex = 0;
         let selectedArtworkForPurchase = null;
+        let isModalOpen = false;
+
+        window.addEventListener('popstate', (e) => {
+            if (isModalOpen) {
+                closeArtModal(true);
+            }
+        });
 
         if (isAuthenticated) enableAdminState();
 
@@ -747,6 +758,15 @@
             const dot = document.getElementById('admin-login-dot');
             if (dot) dot.className = "w-2.5 h-2.5 bg-emerald-500 rounded-full hover:scale-150 transition-all cursor-pointer";
         }
+
+        window.logoutAdmin = function() {
+            localStorage.removeItem('isAdminLoggedIn');
+            isAuthenticated = false;
+            document.getElementById('nav-admin-btn')?.classList.add('hidden');
+            const dot = document.getElementById('admin-login-dot');
+            if (dot) dot.className = "w-2.5 h-2.5 bg-neutral-900 dark:bg-white rounded-full hover:scale-150 transition-all duration-300 focus:outline-none cursor-pointer";
+            switchTab('home');
+        };
 
         window.switchTab = function(viewName) {
             if (viewName === 'admin' && !isAuthenticated) {
@@ -793,10 +813,14 @@
             document.getElementById('art-file-preview').classList.add('hidden');
         };
 
+        window.openHistoryModal = () => document.getElementById('history-modal-overlay').classList.remove('hidden');
+        window.closeHistoryModal = () => document.getElementById('history-modal-overlay').classList.add('hidden');
+
         window.openHomePosterModal = () => {
             if (homePosterData) {
                 document.getElementById('hp-name').value = homePosterData.name || '';
-                document.getElementById('hp-date').value = homePosterData.date || '';
+                document.getElementById('hp-start-date').value = homePosterData.startDate || '';
+                document.getElementById('hp-end-date').value = homePosterData.endDate || '';
                 document.getElementById('hp-location').value = homePosterData.location || '';
                 document.getElementById('hp-url').value = homePosterData.imageUrl || '';
             }
@@ -816,6 +840,11 @@
             document.getElementById('edit-modal').classList.add('hidden');
             document.getElementById('edit-file-preview').innerHTML = '';
             document.getElementById('edit-file-preview').classList.add('hidden');
+        };
+
+        window.toggleSoldPriceRequirement = function(isSold, priceInputId) {
+            const priceInput = document.getElementById(priceInputId);
+            if (priceInput) priceInput.required = !isSold;
         };
 
         window.handleCategoryChange = function() {
@@ -911,13 +940,10 @@
                 price.classList.remove('hidden');
             } else price.classList.add('hidden');
 
-            const soldOverlay = document.getElementById('modal-sold-overlay');
             const buyBtn = document.getElementById('modal-buy-btn');
             if (art.isSold) {
-                soldOverlay.classList.remove('hidden');
                 buyBtn.classList.add('hidden');
             } else {
-                soldOverlay.classList.add('hidden');
                 buyBtn.classList.remove('hidden');
             }
 
@@ -933,6 +959,9 @@
 
             document.getElementById('art-modal').classList.remove('hidden');
             document.getElementById('art-modal').classList.add('flex');
+            
+            isModalOpen = true;
+            history.pushState({ modalOpen: true }, '');
         };
 
         function updateModalImageViewer() {
@@ -986,7 +1015,15 @@
             updateModalImageViewer();
         };
 
-        window.closeArtModal = () => document.getElementById('art-modal').classList.add('hidden');
+        window.closeArtModal = (fromPopState = false) => {
+            document.getElementById('art-modal').classList.add('hidden');
+            if (isModalOpen && !fromPopState) {
+                isModalOpen = false;
+                history.back();
+            } else {
+                isModalOpen = false;
+            }
+        };
 
         window.requestToBuyCurrentArtwork = function() {
             if (!selectedArtworkForPurchase) return;
@@ -999,11 +1036,117 @@
             document.getElementById('contact-user-name').focus();
         };
 
-        // Realtime Listeners
+        window.changeGallerySortKey = function(key) {
+            gallerySortKey = key;
+            renderGroupedGallery();
+        };
+
+        window.toggleSortOrder = function() {
+            isSortAscending = !isSortAscending;
+            document.getElementById('sort-order-label').innerText = isSortAscending ? 'ASC' : 'DESC';
+            renderGroupedGallery();
+        };
+
+        function renderGroupedGallery() {
+            const container = document.getElementById('gallery-grouped-sections');
+            if (!container) return;
+            container.innerHTML = '';
+
+            if (artworksList.length === 0) {
+                container.innerHTML = `<div class="py-20 text-center text-neutral-400 font-mono text-xs">No collection items found.</div>`;
+                return;
+            }
+
+            const groups = {};
+            artworksList.forEach(art => {
+                let groupVal = '';
+                if (gallerySortKey === 'title') {
+                    const titleStr = (art.title || '').trim();
+                    groupVal = titleStr.length > 0 ? titleStr.charAt(0).toUpperCase() : '#';
+                } else {
+                    groupVal = (art[gallerySortKey] || 'Other').toString().trim();
+                    if (!groupVal) groupVal = 'Other';
+                }
+
+                if (!groups[groupVal]) groups[groupVal] = [];
+                groups[groupVal].push(art);
+            });
+
+            const groupKeys = Object.keys(groups).sort((a, b) => {
+                if (gallerySortKey === 'year' || gallerySortKey === 'price') {
+                    const numA = parseFloat(a.replace(/[^0-9.]/g, '')) || 0;
+                    const numB = parseFloat(b.replace(/[^0-9.]/g, '')) || 0;
+                    return isSortAscending ? numA - numB : numB - numA;
+                }
+                return isSortAscending ? a.localeCompare(b, undefined, { sensitivity: 'base' }) : b.localeCompare(a, undefined, { sensitivity: 'base' });
+            });
+
+            groupKeys.forEach(key => {
+                // Ensure individual items within each group are also sorted alphabetically by title if sorting by name
+                if (gallerySortKey === 'title') {
+                    groups[key].sort((a, b) => {
+                        const titleA = (a.title || '').toLowerCase();
+                        const titleB = (b.title || '').toLowerCase();
+                        return isSortAscending ? titleA.localeCompare(titleB) : titleB.localeCompare(titleA);
+                    });
+                }
+
+                const section = document.createElement('div');
+                section.className = "space-y-4";
+                section.innerHTML = `
+                    <div class="flex items-center gap-4 border-b border-neutral-200 dark:border-neutral-900 pb-2">
+                        <h3 class="text-xl font-mono uppercase tracking-wider text-neutral-900 dark:text-white font-semibold">${key}:</h3>
+                        <span class="text-xs font-mono text-neutral-400">(${groups[key].length} ${groups[key].length === 1 ? 'item' : 'items'})</span>
+                    </div>
+                    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 justify-center"></div>
+                `;
+                const grid = section.querySelector('.grid');
+
+                groups[key].forEach(art => {
+                    const card = document.createElement('div');
+                    card.className = "interactive-card border border-neutral-200 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl rounded-2xl p-4.5 px-5 pb-5 space-y-3.5 cursor-pointer relative group";
+                    card.onclick = () => openArtModal(art);
+                    
+                    const previewImg = (art.imageUrls && art.imageUrls.length > 0) ? art.imageUrls[0] : art.imageUrl;
+                    const imageCountBadge = (art.imageUrls && art.imageUrls.length > 1) ? `<span class="absolute bottom-2.5 left-2.5 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono text-white flex items-center gap-1 z-10"><i data-lucide="images" class="w-3 h-3"></i> ${art.imageUrls.length}</span>` : '';
+                    const soldStampOverlay = art.isSold ? `<div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none"><img src="https://static.vecteezy.com/system/resources/previews/021/433/029/non_2x/sold-rubber-stamp-free-png.png" class="w-36 object-contain transform -rotate-12 drop-shadow-xl opacity-95" /></div>` : '';
+
+                    card.innerHTML = `
+                        <div class="w-full h-52 bg-black rounded-xl overflow-hidden flex items-center justify-center relative">
+                            ${previewImg ? `<img src="${previewImg}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />` : `<span class="text-xs font-mono text-neutral-500">No Image</span>`}
+                            ${soldStampOverlay}
+                            ${imageCountBadge}
+                            ${isAuthenticated ? `
+                                <div class="absolute top-2.5 right-2.5 flex gap-1.5 z-20" onclick="event.stopPropagation()">
+                                    <button onclick="toggleSoldStatus('${art.id}', ${!art.isSold})" title="${art.isSold ? 'Mark Available' : 'Mark Sold'}" class="p-2 rounded-xl bg-black/80 ${art.isSold ? 'text-red-400' : 'text-neutral-400'} hover:text-white backdrop-blur-md transition-colors"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i></button>
+                                    <button onclick="openEditModal('${art.id}')" class="p-2 rounded-xl bg-black/80 text-white hover:bg-neutral-800 backdrop-blur-md transition-colors"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
+                                    <button onclick="deleteArtRecord('${art.id}')" class="p-2 rounded-xl bg-black/80 text-red-400 hover:bg-red-950 backdrop-blur-md transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
+                                </div>
+                            ` : ''}
+                        </div>
+                        <div>
+                            <div class="flex justify-between items-center">
+                                <h4 class="font-medium text-base text-neutral-900 dark:text-white">${art.title || 'Untitled'}</h4>
+                                <span class="text-xs font-mono text-neutral-400">${art.year || ''}</span>
+                            </div>
+                            <p class="text-xs text-neutral-500 mt-0.5">${art.medium || ''}</p>
+                            <div class="flex items-center gap-3 mt-3 font-mono text-[11px]">
+                                ${art.dimensions ? `<span class="text-neutral-400 bg-neutral-100 dark:bg-neutral-900 px-2.5 py-1 rounded-md">${art.dimensions}</span>` : ''}
+                                ${art.price ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2.5 py-1 rounded-md">${art.price}</span>` : ''}
+                            </div>
+                        </div>`;
+                    grid.appendChild(card);
+                });
+
+                container.appendChild(section);
+            });
+
+            if (window.lucide) window.lucide.createIcons();
+        }
+
         onSnapshot(query(collection(db, "artworks"), orderBy("createdAt", "desc")), (snapshot) => {
             artworksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
-            updateFilterButtons(artworksList);
-            renderGallery(artworksList);
+            renderGroupedGallery();
         });
 
         onSnapshot(collection(db, "admin_users"), (snapshot) => {
@@ -1015,6 +1158,12 @@
             socialLinksList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
             renderSocials();
             renderAdminSocialsList();
+        });
+
+        onSnapshot(collection(db, "history_records"), (snapshot) => {
+            historyList = snapshot.docs.map(d => ({ id: d.id, ...d.data() }));
+            renderHistoryView();
+            renderAdminHistoryList();
         });
 
         onSnapshot(doc(db, "settings", "home_poster"), (docSnap) => {
@@ -1034,9 +1183,13 @@
                     <div class="p-12 text-center border border-neutral-200 dark:border-neutral-900 rounded-3xl bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl space-y-3">
                         <i data-lucide="image" class="w-10 h-10 text-neutral-400 mx-auto"></i>
                         <h3 class="text-lg font-medium text-neutral-900 dark:text-white">No active exhibit posted yet.</h3>
-                        <p class="text-xs text-neutral-500 max-w-sm mx-auto">Log in as admin to configure the home exhibit poster, name, date, and location.</p>
+                        <p class="text-xs text-neutral-500 max-w-sm mx-auto">Log in as admin to configure the home exhibit poster, dates, and location.</p>
                     </div>`;
             } else {
+                const today = new Date().toISOString().split('T')[0];
+                const isExpired = data.endDate && data.endDate < today;
+                const dateClass = isExpired ? "bg-red-500/20 text-red-400 border-red-500/30" : "bg-neutral-100 dark:bg-neutral-900 text-neutral-500 border-neutral-200 dark:border-neutral-800";
+
                 container.innerHTML = `
                     <div class="border border-neutral-200 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-2xl rounded-3xl p-6 sm:p-8 space-y-6 shadow-xl max-w-2xl mx-auto text-center">
                         <div class="w-full bg-black/90 dark:bg-black rounded-2xl overflow-hidden flex items-center justify-center border border-neutral-200 dark:border-neutral-800 relative p-3 sm:p-4">
@@ -1044,9 +1197,9 @@
                         </div>
                         <div class="space-y-2">
                             <h3 class="text-2xl sm:text-3xl font-light text-neutral-900 dark:text-white">${data.name || ''}</h3>
-                            <div class="flex flex-wrap justify-center gap-3 pt-2 font-mono text-xs text-neutral-500">
-                                <span class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-100 dark:bg-neutral-900">${data.date || ''}</span>
-                                <span class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-100 dark:bg-neutral-900">${data.location || ''}</span>
+                            <div class="flex flex-wrap justify-center gap-3 pt-2 font-mono text-xs">
+                                <span class="px-3 py-1.5 border rounded-xl font-semibold ${dateClass}">${data.startDate || ''} &mdash; ${data.endDate || ''} ${isExpired ? '(Ended)' : ''}</span>
+                                <span class="px-3 py-1.5 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-neutral-100 dark:bg-neutral-900 text-neutral-500">${data.location || ''}</span>
                             </div>
                         </div>
                     </div>`;
@@ -1054,81 +1207,40 @@
             if (window.lucide) window.lucide.createIcons();
         }
 
-        function updateFilterButtons(items) {
-            const filterContainer = document.getElementById('filter-container');
-            if (!filterContainer) return;
-            const presentYears = new Set();
-            let hasUndated = false;
-            items.forEach(item => {
-                if (item.year && item.year.trim() !== "") presentYears.add(item.year.trim());
-                else hasUndated = true;
-            });
-            const sortedYears = Array.from(presentYears).sort((a, b) => b.localeCompare(a));
-            filterContainer.innerHTML = '';
-            filterContainer.appendChild(createFilterButton('all', 'All Years', currentFilter === 'all'));
-            sortedYears.forEach(year => filterContainer.appendChild(createFilterButton(year, year, currentFilter === year)));
-            if (hasUndated) filterContainer.appendChild(createFilterButton('undated', 'Undated', currentFilter === 'undated'));
-        }
+        function renderHistoryView() {
+            const container = document.getElementById('history-container');
+            if (!container) return;
+            container.innerHTML = '';
 
-        function createFilterButton(yearKey, label, isActive) {
-            const btn = document.createElement('button');
-            btn.onclick = () => { currentFilter = yearKey; updateFilterButtons(artworksList); renderGallery(artworksList); };
-            btn.className = `px-3.5 py-1.5 rounded-xl border transition-all text-xs shrink-0 cursor-pointer ${isActive ? 'bg-neutral-900 dark:bg-white text-white dark:text-black border-neutral-900 dark:border-white font-medium' : 'border-neutral-200 dark:border-neutral-800 text-neutral-500 hover:text-neutral-900 dark:hover:text-white'}`;
-            btn.innerText = label;
-            return btn;
-        }
-
-        function renderGallery(items) {
-            const grid = document.getElementById('gallery-grid');
-            if (!grid) return;
-            grid.innerHTML = '';
-            let filtered = [];
-            if (currentFilter === 'all') filtered = [...items];
-            else if (currentFilter === 'undated') filtered = items.filter(a => !a.year || a.year.trim() === '');
-            else filtered = items.filter(a => (a.year || '').trim() === currentFilter);
-
-            if (filtered.length === 0) {
-                grid.innerHTML = `<div class="col-span-full py-20 text-center text-neutral-400 font-mono text-xs">No collection items found.</div>`;
+            if (historyList.length === 0) {
+                container.innerHTML = `<div class="text-neutral-400 font-mono text-xs">No history items added yet.</div>`;
                 return;
             }
-            filtered.forEach(art => {
-                const card = document.createElement('div');
-                card.className = "interactive-card border border-neutral-200 dark:border-neutral-900 bg-neutral-50/50 dark:bg-neutral-950/50 backdrop-blur-xl rounded-2xl p-4.5 pb-6 space-y-3.5 cursor-pointer relative group";
-                card.onclick = () => openArtModal(art);
-                
-                const previewImg = (art.imageUrls && art.imageUrls.length > 0) ? art.imageUrls[0] : art.imageUrl;
-                const imageCountBadge = (art.imageUrls && art.imageUrls.length > 1) ? `<span class="absolute bottom-2.5 left-2.5 px-2 py-1 rounded-lg bg-black/70 backdrop-blur-md text-[10px] font-mono text-white flex items-center gap-1 z-10"><i data-lucide="images" class="w-3 h-3"></i> ${art.imageUrls.length}</span>` : '';
-                
-                // PNG Stamp overlay for sold cards
-                const soldStampOverlay = art.isSold ? `<div class="absolute inset-0 bg-black/40 backdrop-blur-[1px] flex items-center justify-center z-10 pointer-events-none"><img src="https://static.vecteezy.com/system/resources/previews/021/433/029/non_2x/sold-rubber-stamp-free-png.png" class="w-36 object-contain transform -rotate-12 drop-shadow-xl opacity-95" /></div>` : '';
 
-                card.innerHTML = `
-                    <div class="w-full h-52 bg-black rounded-xl overflow-hidden flex items-center justify-center relative">
-                        ${previewImg ? `<img src="${previewImg}" class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />` : `<span class="text-xs font-mono text-neutral-500">No Image</span>`}
-                        ${soldStampOverlay}
-                        ${imageCountBadge}
-                        ${isAuthenticated ? `
-                            <div class="absolute top-2.5 right-2.5 flex gap-1.5 z-20" onclick="event.stopPropagation()">
-                                <button onclick="toggleSoldStatus('${art.id}', ${!art.isSold})" title="${art.isSold ? 'Mark Available' : 'Mark Sold'}" class="p-2 rounded-xl bg-black/80 ${art.isSold ? 'text-red-400' : 'text-neutral-400'} hover:text-white backdrop-blur-md transition-colors"><i data-lucide="check-circle" class="w-3.5 h-3.5"></i></button>
-                                <button onclick="openEditModal('${art.id}')" class="p-2 rounded-xl bg-black/80 text-white hover:bg-neutral-800 backdrop-blur-md transition-colors"><i data-lucide="edit-3" class="w-3.5 h-3.5"></i></button>
-                                <button onclick="deleteArtRecord('${art.id}')" class="p-2 rounded-xl bg-black/80 text-red-400 hover:bg-red-950 backdrop-blur-md transition-colors"><i data-lucide="trash-2" class="w-3.5 h-3.5"></i></button>
-                            </div>
-                        ` : ''}
-                    </div>
-                    <div>
-                        <div class="flex justify-between items-center">
-                            <h4 class="font-medium text-base text-neutral-900 dark:text-white">${art.title || 'Untitled'}</h4>
-                            <span class="text-xs font-mono text-neutral-400">${art.year || ''}</span>
-                        </div>
-                        <p class="text-xs text-neutral-500 mt-0.5">${art.medium || ''}</p>
-                        <div class="flex items-center gap-3 mt-3 font-mono text-[11px]">
-                            ${art.dimensions ? `<span class="text-neutral-400 bg-neutral-100 dark:bg-neutral-900 px-2 py-0.5 rounded-md">${art.dimensions}</span>` : ''}
-                            ${art.price ? `<span class="text-emerald-600 dark:text-emerald-400 font-bold bg-emerald-50 dark:bg-emerald-950/40 px-2 py-0.5 rounded-md">${art.price}</span>` : ''}
-                        </div>
-                    </div>`;
-                grid.appendChild(card);
+            const categories = {};
+            historyList.forEach(item => {
+                const cat = item.category || 'GENERAL';
+                if (!categories[cat]) categories[cat] = [];
+                categories[cat].push(item);
             });
-            if (window.lucide) window.lucide.createIcons();
+
+            Object.keys(categories).forEach(cat => {
+                const catBlock = document.createElement('div');
+                catBlock.className = "space-y-3 border-b border-neutral-200 dark:border-neutral-900 pb-8";
+                catBlock.innerHTML = `<h3 class="text-[10px] sm:text-xs font-mono uppercase tracking-widest text-neutral-400">${cat}</h3><ul class="text-neutral-600 dark:text-neutral-300 space-y-2.5"></ul>`;
+                const ul = catBlock.querySelector('ul');
+
+                categories[cat].sort((a, b) => b.year.localeCompare(a.year));
+
+                categories[cat].forEach(h => {
+                    const li = document.createElement('li');
+                    li.className = "flex items-start gap-3";
+                    li.innerHTML = `<span class="w-1.5 h-1.5 rounded-full bg-neutral-400 mt-2 shrink-0"></span><span><strong class="text-neutral-900 dark:text-white font-medium">${h.year}:</strong> ${h.desc}</span>`;
+                    ul.appendChild(li);
+                });
+
+                container.appendChild(catBlock);
+            });
         }
 
         function renderSocials() {
@@ -1140,12 +1252,19 @@
             }
             container.innerHTML = '';
             socialLinksList.forEach(soc => {
-                const a = document.createElement('a');
-                a.href = soc.link;
-                a.target = "_blank";
-                a.className = "flex items-center justify-center w-11 h-11 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:scale-105 transition-transform shadow-sm";
-                a.innerHTML = `<img src="${soc.logoUrl}" class="w-5 h-5 object-contain rounded" />`;
-                container.appendChild(a);
+                const wrap = document.createElement('div');
+                wrap.className = "relative group";
+                wrap.innerHTML = `
+                    <a href="${soc.link}" target="_blank" class="flex items-center justify-center w-11 h-11 rounded-2xl bg-white dark:bg-neutral-900 border border-neutral-200 dark:border-neutral-800 hover:scale-105 transition-transform shadow-sm">
+                        <img src="${soc.logoUrl}" class="w-5 h-5 object-contain rounded" />
+                    </a>
+                    <div class="absolute left-1/2 -translate-x-1/2 bottom-full mb-2 hidden group-hover:flex group-focus:flex flex-col bg-black/90 dark:bg-neutral-900 text-white text-[10px] font-mono p-2.5 rounded-xl border border-neutral-700 shadow-2xl whitespace-nowrap z-30 pointer-events-none">
+                        <span class="font-bold text-white">${soc.name}</span>
+                        <span class="text-neutral-400">${soc.username}</span>
+                        <span class="text-neutral-500 text-[9px] underline max-w-[150px] truncate">${soc.link}</span>
+                    </div>
+                `;
+                container.appendChild(wrap);
             });
         }
 
@@ -1157,6 +1276,18 @@
                 const item = document.createElement('div');
                 item.className = "flex justify-between items-center p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-black/40 text-xs";
                 item.innerHTML = `<span>${s.name} (${s.username})</span> <button onclick="deleteSocial('${s.id}')" class="text-red-500 hover:text-red-700 font-bold">&times;</button>`;
+                listEl.appendChild(item);
+            });
+        }
+
+        function renderAdminHistoryList() {
+            const listEl = document.getElementById('admin-history-list');
+            if (!listEl) return;
+            listEl.innerHTML = historyList.length === 0 ? `<div class="text-neutral-400 text-[11px]">No records.</div>` : '';
+            historyList.forEach(h => {
+                const item = document.createElement('div');
+                item.className = "flex justify-between items-center p-3 border border-neutral-200 dark:border-neutral-800 rounded-xl bg-white dark:bg-black/40 text-xs";
+                item.innerHTML = `<span>[${h.category}] ${h.year} - ${h.desc.substring(0,20)}...</span> <button onclick="deleteHistory('${h.id}')" class="text-red-500 hover:text-red-700 font-bold">&times;</button>`;
                 listEl.appendChild(item);
             });
         }
@@ -1209,6 +1340,7 @@
 
         window.deleteArtRecord = async (id) => { if (confirm("Delete artwork?")) await deleteDoc(doc(db, "artworks", id)); };
         window.deleteSocial = async (id) => { if (confirm("Delete social?")) await deleteDoc(doc(db, "social_links", id)); };
+        window.deleteHistory = async (id) => { if (confirm("Delete history entry?")) await deleteDoc(doc(db, "history_records", id)); };
         window.deleteAdminUser = async (id) => { if (confirm("Delete admin?")) await deleteDoc(doc(db, "admin_users", id)); };
 
         document.getElementById('login-form').addEventListener('submit', (e) => {
@@ -1242,12 +1374,25 @@
             }
             await setDoc(doc(db, "settings", "home_poster"), {
                 name: document.getElementById('hp-name').value.trim(),
-                date: document.getElementById('hp-date').value.trim(),
+                startDate: document.getElementById('hp-start-date').value,
+                endDate: document.getElementById('hp-end-date').value,
                 location: document.getElementById('hp-location').value.trim(),
                 imageUrl: posterUrl,
                 updatedAt: serverTimestamp()
             });
             closeHomePosterModal();
+        });
+
+        document.getElementById('history-form').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            await addDoc(collection(db, "history_records"), {
+                category: document.getElementById('hist-category').value.trim().toUpperCase(),
+                year: document.getElementById('hist-year').value.trim(),
+                desc: document.getElementById('hist-desc').value.trim(),
+                createdAt: serverTimestamp()
+            });
+            document.getElementById('history-form').reset();
+            closeHistoryModal();
         });
 
         document.getElementById('social-form').addEventListener('submit', async (e) => {
